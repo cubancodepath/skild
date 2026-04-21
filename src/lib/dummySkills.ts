@@ -1,0 +1,67 @@
+export const dummySkills: SkillRecord[] = [
+	{
+		id: "1",
+		title: "Web Search",
+		slug: "web-search",
+		description:
+			"Enables agents to search the web and retrieve real-time information from the internet.",
+		category: "Research",
+		tags: ["search", "web", "retrieval"],
+		installCommand: "claude skill install web-search",
+		create_at: "2025-01-15T10:00:00Z",
+		authorUserId: "user_abc123",
+		authorEmail: "author@example.com",
+	},
+	{
+		id: "2",
+		title: "Code Review",
+		slug: "code-review",
+		description:
+			"Analyzes code for bugs, security vulnerabilities, and style improvements with detailed feedback.",
+		category: "Development",
+		tags: ["code", "review", "security", "quality"],
+		installCommand: "claude skill install code-review",
+		create_at: "2025-02-03T14:30:00Z",
+		authorUserId: "user_def456",
+		authorEmail: "dev@example.com",
+	},
+	{
+		id: "3",
+		title: "Data Summarizer",
+		slug: "data-summarizer",
+		description:
+			"Condenses large datasets and documents into concise, actionable summaries.",
+		category: "Productivity",
+		tags: ["summary", "data", "nlp"],
+		installCommand: "claude skill install data-summarizer",
+		create_at: "2025-03-10T09:15:00Z",
+		authorUserId: null,
+		authorEmail: null,
+	},
+	{
+		id: "4",
+		title: "GitHub PR Review",
+		slug: "github-pr-review",
+		description:
+			"Automatically reviews pull requests, leaves inline comments, and suggests improvements.",
+		category: "Development",
+		tags: ["github", "pull-request", "automation"],
+		installCommand: "claude skill install github-pr-review",
+		create_at: "2025-03-28T16:45:00Z",
+		authorUserId: "user_ghi789",
+		authorEmail: "eng@example.com",
+	},
+	{
+		id: "5",
+		title: "Calendar Scheduler",
+		slug: "calendar-scheduler",
+		description:
+			"Manages calendar events, finds optimal meeting times, and sends invites on behalf of the user.",
+		category: "Productivity",
+		tags: ["calendar", "scheduling", "automation"],
+		installCommand: "claude skill install calendar-scheduler",
+		create_at: "2025-04-01T11:00:00Z",
+		authorUserId: "user_jkl012",
+		authorEmail: "tools@example.com",
+	},
+];
