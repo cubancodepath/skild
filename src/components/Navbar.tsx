@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { LogIn } from "lucide-react";
+import Show from "./Show";
 
 const Navbar = () => {
 	return (
@@ -13,10 +14,12 @@ const Navbar = () => {
 				</Link>
 			</div>
 			<div className="actions">
-				<Link to="/sign-in/$" className="btn-primary">
-					<LogIn size={16} />
-					Sign In
-				</Link>
+				<Show when="sign-out">
+					<Link to="/sign-in" className="btn-primary">
+						<LogIn size={16} />
+						Sign In
+					</Link>
+				</Show>
 			</div>
 		</nav>
 	);
