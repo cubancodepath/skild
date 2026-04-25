@@ -28,10 +28,17 @@ const NavUser = () => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Avatar className="h-8 w-8 cursor-pointer">
-					{/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-					<AvatarFallback className="rounded-lg">CN</AvatarFallback>
-				</Avatar>
+				<Button
+					type="button"
+					className="flex items-center gap-2 rounded-full"
+					variant="ghost"
+					size="icon"
+				>
+					<Avatar className="h-8 w-8 cursor-pointer">
+						{/* <AvatarImage src={user.avatar} alt={user.name} /> */}
+						<AvatarFallback className="rounded-lg">CN</AvatarFallback>
+					</Avatar>
+				</Button>
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent
