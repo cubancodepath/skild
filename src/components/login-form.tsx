@@ -1,5 +1,7 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: TanStack Form render prop API */
+
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
 import * as z from "zod";
 import { Button } from "#/components/ui/button";
@@ -31,6 +33,8 @@ export function LoginForm({
 	className,
 	...props
 }: React.ComponentProps<"div">) {
+	const router = useRouter();
+
 	const form = useForm({
 		defaultValues: {
 			email: "",
@@ -48,6 +52,7 @@ export function LoginForm({
 				},
 				{
 					onSuccess: () => {
+						router.invalidate();
 						toast.success("Login successfully");
 					},
 					onError: (ctx) => {

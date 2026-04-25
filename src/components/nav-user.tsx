@@ -1,4 +1,6 @@
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from "lucide-react";
+import { authClient } from "#/lib/auth-client";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
@@ -11,6 +13,18 @@ import {
 } from "./ui/dropdown-menu";
 
 const NavUser = () => {
+	const navigate = useNavigate();
+	const router = useRouter();
+	const logout = async () => {
+		await authClient.signOut({
+			fetchOptions: {
+				onSuccess: () => {
+					router.invalidate();
+					navigate({ to: "/" });
+				},
+			},
+		});
+	};
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -47,7 +61,7 @@ const NavUser = () => {
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
+				<DropdownMenuItem onClick={logout}>
 					<LogOut />
 					Log out
 				</DropdownMenuItem>

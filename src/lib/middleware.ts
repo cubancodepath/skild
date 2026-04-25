@@ -1,14 +1,25 @@
 import { redirect } from "@tanstack/react-router";
-import { createMiddleware } from "@tanstack/react-start";
+import { createMiddleware, createServerFn } from "@tanstack/react-start";
 import { auth } from "./auth";
 
-export const authMiddleware = createMiddleware().server(
+export const fetchSessionMiddleware = createMiddleware().server(
 	async ({ next, request }) => {
 		const session = await auth.api.getSession({ headers: request.headers });
-
-		if (!session) {
-			throw redirect({ to: "/sign-in" });
-		}
-		return await next();
+		return await next({ context: { session } });
 	},
 );
+
+export const authMiddleware = createMiddleware()
+	.middleware([fetchSessionMiddleware])
+	.server(async ({ next, context }) => {
+		if (!context.session) {
+			throw redirect({ to: "/sign-in" });
+		}
+		return await next({ context });
+	});
+
+export const getAuthSession = createServerFn({ method: "GET" })
+	.middleware([fetchSessionMiddleware])
+	.handler(async ({ context }) => {
+		return context.session;
+	});
