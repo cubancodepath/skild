@@ -5,6 +5,7 @@ type Props = {
 	children: React.ReactNode;
 	when?: "sign-in" | "sign-out";
 };
+
 const Show = ({ children, when = "sign-in" }: Props) => {
 	const { data: isSigIn } = authClient.useSession();
 
