@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { LogIn } from "lucide-react";
 import NavUser from "./nav-user";
 import Show from "./Show";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Navbar = () => {
 	return (

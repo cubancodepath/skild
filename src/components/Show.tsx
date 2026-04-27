@@ -1,5 +1,5 @@
+import { useRouteContext } from "@tanstack/react-router";
 import type React from "react";
-import { authClient } from "#/lib/auth-client";
 
 type Props = {
 	children: React.ReactNode;
@@ -7,10 +7,12 @@ type Props = {
 };
 
 const Show = ({ children, when = "sign-in" }: Props) => {
-	const { data: isSigIn } = authClient.useSession();
+	const { session } = useRouteContext({ from: "__root__" });
+
+	const isSignIn = !!session?.user;
 
 	const showContent =
-		(isSigIn && when === "sign-in") || (!isSigIn && when === "sign-out");
+		(isSignIn && when === "sign-in") || (!isSignIn && when === "sign-out");
 
 	if (!showContent) return null;
 

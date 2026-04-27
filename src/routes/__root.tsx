@@ -6,17 +6,23 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { Crosshair } from "lucide-react";
 import { Toaster } from "sonner";
+import Crosshair from "#/components/Crosshair";
 import Navbar from "#/components/Navbar";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
+import { getAuthSession } from "../lib/middleware";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
+	session: Awaited<ReturnType<typeof getAuthSession>> | null;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+	beforeLoad: async () => {
+		const session = await getAuthSession();
+		return { session };
+	},
 	head: () => ({
 		meta: [
 			{
@@ -59,8 +65,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					<header>
 						<div className="frame">
 							<Navbar />
-							{/* <Crosshair />
-							<Crosshair /> */}
+							<Crosshair />
+							<Crosshair />
 						</div>
 					</header>
 

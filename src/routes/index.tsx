@@ -1,11 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { Terminal } from "lucide-react";
 import SkillCard from "#/components/SkillCard";
+import { GetSkills } from "#/db/queries/skills";
 import { dummySkills } from "#/lib/dummySkills";
 
-export const Route = createFileRoute("/")({ component: Home });
+const getSkillsFn = createServerFn({ method: "GET" }).handler(async () => {
+	try {
+		const skills = await GetSkills({});
+		return skills;
+	} catch (e) {
+		console.error(e);
+		return [];
+	}
+});
+
+export const Route = createFileRoute("/")({
+	component: Home,
+	loader: () => getSkillsFn(),
+});
 
 function Home() {
+	const skills = Route.useLoaderData();
 	return (
 		<div id="home">
 			<section className="hero">
@@ -39,7 +55,7 @@ function Home() {
 					<p>Latest skills loading from Postgresql in descending order</p>
 				</div>
 				<div>
-					{dummySkills.length > 0 ? (
+					{skills.length > 0 ? (
 						<div className="skills-grid">
 							{dummySkills.map((skill) => (
 								<SkillCard key={skill.id} {...skill} />
