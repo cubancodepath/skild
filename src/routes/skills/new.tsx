@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: <explanation> */
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Loader2, Zap } from "lucide-react";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -13,6 +14,31 @@ import {
 } from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
 import { Textarea } from "#/components/ui/textarea";
+import { CreateSkill } from "#/db/queries/skills";
+import { getAuthSession } from "#/lib/middleware";
+
+export const createSkillFn = createServerFn({ method: "POST" })
+	.inputValidator((d: SubmitSkillsFormValues) => d)
+	.handler(async ({ data }) => {
+		const session = await getAuthSession();
+		if (!session || !session.user)
+			throw new Error("You must be sign in to publish a skill");
+
+		const result = CreateSkill({
+			title: data.title,
+			description: data.description,
+			tags: data.tags
+				.split(",")
+				.map((tag) => tag.trim())
+				.filter(Boolean),
+			installCommand: data.installCommand,
+			promptConfig: data.promptConfig,
+			usageExample: data.usageExample,
+			authorId: session.user.id,
+		});
+
+		return result;
+	});
 
 const submitSkillSchema = z.object({
 	title: z.string().trim().min(1, "Skill title is required."),
@@ -49,13 +75,22 @@ export const Route = createFileRoute("/skills/new")({
 });
 
 function RouteComponent() {
+	const navigate = Route.useNavigate();
 	const form = useForm({
 		defaultValues,
 		validators: {
 			onSubmit: submitSkillSchema,
 		},
 		onSubmit: async ({ value }) => {
-			toast.success("Form submitted successfully");
+			try {
+				await createSkillFn({ data: value });
+				toast.success("Skill published successfully");
+				form.reset(defaultValues);
+				navigate({ to: "/" });
+			} catch (error) {
+				console.error("Error creating the skill", error);
+				toast.success("Fail to published to publish the skills");
+			}
 		},
 	});
 

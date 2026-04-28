@@ -10,6 +10,16 @@ type SearchSkillsParams = {
 	limit?: number;
 };
 
+type CreateSkillParams = {
+	authorId: string;
+	title: string;
+	description: string;
+	tags: string[];
+	installCommand: string;
+	promptConfig: string;
+	usageExample: string;
+};
+
 export async function GetSkills({
 	searchTerm,
 	limit = DEFAULT_LIMIT,
@@ -26,6 +36,8 @@ export async function GetSkills({
 				tags: skills.tags,
 				createdAt: skills.createdAt,
 				installCommand: skills.installCommand,
+				promptConfig: skills.promptConfig,
+				usageExample: skills.usageExample,
 				author: {
 					id: user.id,
 					name: user.name,
@@ -46,6 +58,8 @@ export async function GetSkills({
 			tags: skills.tags,
 			createdAt: skills.createdAt,
 			installCommand: skills.installCommand,
+			promptConfig: skills.promptConfig,
+			usageExample: skills.usageExample,
 			author: {
 				id: user.id,
 				name: user.name,
@@ -64,4 +78,40 @@ export async function GetSkills({
 		.limit(safeLimit);
 }
 
+export async function CreateSkill({
+	authorId,
+	title,
+	description,
+	tags,
+	installCommand,
+	promptConfig,
+	usageExample,
+}: CreateSkillParams) {
+	const [newSkill] = await db
+		.insert(skills)
+		.values({
+			authorId,
+			title: title.trim(),
+			description: description.trim(),
+			tags: tags,
+			installCommand: installCommand.trim(),
+			promptConfig: promptConfig.trim(),
+			usageExample: usageExample.trim(),
+		})
+		.returning({
+			id: skills.id,
+			title: skills.title,
+			description: skills.description,
+			tags: skills.tags,
+			createdAt: skills.createdAt,
+			installCommand: skills.installCommand,
+			promptConfig: skills.promptConfig,
+			usageExample: skills.usageExample,
+			authorId: skills.authorId,
+		});
+
+	return newSkill;
+}
+
 export type GetSkillsData = Awaited<ReturnType<typeof GetSkills>>;
+export type NewSkillData = Awaited<ReturnType<typeof CreateSkill>>;

@@ -57,7 +57,7 @@ function Home() {
 				<div>
 					{skills.length > 0 ? (
 						<div className="skills-grid">
-							{dummySkills.map((skill) => (
+							{skills.map((skill) => (
 								<SkillCard key={skill.id} {...skill} />
 							))}
 						</div>
