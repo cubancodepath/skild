@@ -28,7 +28,7 @@ export const seacrhSkillsFn = createServerFn({ method: "GET" })
       return response;
     } catch (error) {
       console.error(error);
-      return [];
+      throw error;
     }
   });
 
