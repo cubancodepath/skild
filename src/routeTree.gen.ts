@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SkillsIndexRouteImport } from './routes/skills/index'
 import { Route as SkillsNewRouteImport } from './routes/skills/new'
 import { Route as _authSignOutRouteImport } from './routes/__auth/sign-out'
 import { Route as _authSignInRouteImport } from './routes/__auth/sign-in'
@@ -24,6 +25,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsIndexRoute = SkillsIndexRouteImport.update({
+  id: '/skills/',
+  path: '/skills/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SkillsNewRoute = SkillsNewRouteImport.update({
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof _authSignInRoute
   '/sign-out': typeof _authSignOutRoute
   '/skills/new': typeof SkillsNewRoute
+  '/skills/': typeof SkillsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/sign-in': typeof _authSignInRoute
   '/sign-out': typeof _authSignOutRoute
   '/skills/new': typeof SkillsNewRoute
+  '/skills': typeof SkillsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/__auth/sign-in': typeof _authSignInRoute
   '/__auth/sign-out': typeof _authSignOutRoute
   '/skills/new': typeof SkillsNewRoute
+  '/skills/': typeof SkillsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-out'
     | '/skills/new'
+    | '/skills/'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-out'
     | '/skills/new'
+    | '/skills'
     | '/api/auth/$'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/__auth/sign-in'
     | '/__auth/sign-out'
     | '/skills/new'
+    | '/skills/'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   _authSignInRoute: typeof _authSignInRoute
   _authSignOutRoute: typeof _authSignOutRoute
   SkillsNewRoute: typeof SkillsNewRoute
+  SkillsIndexRoute: typeof SkillsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -122,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/': {
+      id: '/skills/'
+      path: '/skills'
+      fullPath: '/skills/'
+      preLoaderRoute: typeof SkillsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/skills/new': {
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   _authSignInRoute: _authSignInRoute,
   _authSignOutRoute: _authSignOutRoute,
   SkillsNewRoute: SkillsNewRoute,
+  SkillsIndexRoute: SkillsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
