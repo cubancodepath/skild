@@ -1,4 +1,4 @@
-import { desc, eq, ilike, or } from "drizzle-orm";
+import { desc, eq, ilike, or, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { skills, user } from "@/db/schema";
 
@@ -76,6 +76,7 @@ export async function GetSkills({
       or(
         ilike(skills.title, `%${term}%`),
         ilike(skills.description, `%${term}%`),
+        sql`array_to_string(${skills.tags}, ' ') ILIKE ${`%${term}%`}`,
       ),
     )
     .orderBy(desc(skills.createdAt))

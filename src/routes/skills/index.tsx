@@ -14,7 +14,7 @@ const productSearchSchema = z.object({
     .catch("")
     .transform((value) => value.trim()),
 });
-// TODO remove case sensitivity for the queries
+
 export const seacrhSkillsFn = createServerFn({ method: "GET" })
   .inputValidator(productSearchSchema)
   .handler(async ({ data }): Promise<GetSkillsData> => {
