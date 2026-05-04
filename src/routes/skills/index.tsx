@@ -1,7 +1,7 @@
 import Search from "#/components/Search";
 import SkillCard from "#/components/SkillCard";
 import { GetSkills, type GetSkillsData } from "#/db/queries/skills";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 
