@@ -1,12 +1,9 @@
-interface SkillRecord{
-  id: string, 
-  title: string,
-  slug: string,
-  description: string,
-  category: string,
-  tags: string[],
-  installCommand: string,
-  create_at: string | null
-  authorUserId: string | null
-  authorEmail: string | null
+interface SkillRecord {
+  id: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  tags: string[] | null;
+  installCommand: string | null;
+  createdAt: string | Date | null;
 }

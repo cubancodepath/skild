@@ -12,7 +12,10 @@
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "biome check",
+    "db:reset": "node scripts/db-reset.mjs",
+    "db:migrate": "drizzle-kit migrate",
+    "db:fresh": "npm run db:reset && npm run db:migrate"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",

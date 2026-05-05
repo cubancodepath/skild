@@ -9,19 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SkillsIndexRouteImport } from './routes/skills/index'
-import { Route as SkillsNewRouteImport } from './routes/skills/new'
-import { Route as _authSignOutRouteImport } from './routes/__auth/sign-out'
-import { Route as _authSignInRouteImport } from './routes/__auth/sign-in'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as SkillsSkillIdRouteImport } from './routes/skills/$skillId'
+import { Route as ApiWebhooksGithubRouteImport } from './routes/api/webhooks/github'
+import { Route as ApiAdminSyncSkillsRouteImport } from './routes/api/admin/sync-skills'
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -32,104 +25,78 @@ const SkillsIndexRoute = SkillsIndexRouteImport.update({
   path: '/skills/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SkillsNewRoute = SkillsNewRouteImport.update({
-  id: '/skills/new',
-  path: '/skills/new',
+const SkillsSkillIdRoute = SkillsSkillIdRouteImport.update({
+  id: '/skills/$skillId',
+  path: '/skills/$skillId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const _authSignOutRoute = _authSignOutRouteImport.update({
-  id: '/__auth/sign-out',
-  path: '/sign-out',
+const ApiWebhooksGithubRoute = ApiWebhooksGithubRouteImport.update({
+  id: '/api/webhooks/github',
+  path: '/api/webhooks/github',
   getParentRoute: () => rootRouteImport,
 } as any)
-const _authSignInRoute = _authSignInRouteImport.update({
-  id: '/__auth/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
+const ApiAdminSyncSkillsRoute = ApiAdminSyncSkillsRouteImport.update({
+  id: '/api/admin/sync-skills',
+  path: '/api/admin/sync-skills',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/sign-in': typeof _authSignInRoute
-  '/sign-out': typeof _authSignOutRoute
-  '/skills/new': typeof SkillsNewRoute
+  '/skills/$skillId': typeof SkillsSkillIdRoute
   '/skills/': typeof SkillsIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/admin/sync-skills': typeof ApiAdminSyncSkillsRoute
+  '/api/webhooks/github': typeof ApiWebhooksGithubRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/sign-in': typeof _authSignInRoute
-  '/sign-out': typeof _authSignOutRoute
-  '/skills/new': typeof SkillsNewRoute
+  '/skills/$skillId': typeof SkillsSkillIdRoute
   '/skills': typeof SkillsIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/admin/sync-skills': typeof ApiAdminSyncSkillsRoute
+  '/api/webhooks/github': typeof ApiWebhooksGithubRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/__auth/sign-in': typeof _authSignInRoute
-  '/__auth/sign-out': typeof _authSignOutRoute
-  '/skills/new': typeof SkillsNewRoute
+  '/skills/$skillId': typeof SkillsSkillIdRoute
   '/skills/': typeof SkillsIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/admin/sync-skills': typeof ApiAdminSyncSkillsRoute
+  '/api/webhooks/github': typeof ApiWebhooksGithubRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
-    | '/sign-in'
-    | '/sign-out'
-    | '/skills/new'
+    | '/skills/$skillId'
     | '/skills/'
-    | '/api/auth/$'
+    | '/api/admin/sync-skills'
+    | '/api/webhooks/github'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
-    | '/sign-in'
-    | '/sign-out'
-    | '/skills/new'
+    | '/skills/$skillId'
     | '/skills'
-    | '/api/auth/$'
+    | '/api/admin/sync-skills'
+    | '/api/webhooks/github'
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
-    | '/__auth/sign-in'
-    | '/__auth/sign-out'
-    | '/skills/new'
+    | '/skills/$skillId'
     | '/skills/'
-    | '/api/auth/$'
+    | '/api/admin/sync-skills'
+    | '/api/webhooks/github'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  _authSignInRoute: typeof _authSignInRoute
-  _authSignOutRoute: typeof _authSignOutRoute
-  SkillsNewRoute: typeof SkillsNewRoute
+  SkillsSkillIdRoute: typeof SkillsSkillIdRoute
   SkillsIndexRoute: typeof SkillsIndexRoute
-  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiAdminSyncSkillsRoute: typeof ApiAdminSyncSkillsRoute
+  ApiWebhooksGithubRoute: typeof ApiWebhooksGithubRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -144,32 +111,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/skills/new': {
-      id: '/skills/new'
-      path: '/skills/new'
-      fullPath: '/skills/new'
-      preLoaderRoute: typeof SkillsNewRouteImport
+    '/skills/$skillId': {
+      id: '/skills/$skillId'
+      path: '/skills/$skillId'
+      fullPath: '/skills/$skillId'
+      preLoaderRoute: typeof SkillsSkillIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/__auth/sign-out': {
-      id: '/__auth/sign-out'
-      path: '/sign-out'
-      fullPath: '/sign-out'
-      preLoaderRoute: typeof _authSignOutRouteImport
+    '/api/webhooks/github': {
+      id: '/api/webhooks/github'
+      path: '/api/webhooks/github'
+      fullPath: '/api/webhooks/github'
+      preLoaderRoute: typeof ApiWebhooksGithubRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/__auth/sign-in': {
-      id: '/__auth/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof _authSignInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
+    '/api/admin/sync-skills': {
+      id: '/api/admin/sync-skills'
+      path: '/api/admin/sync-skills'
+      fullPath: '/api/admin/sync-skills'
+      preLoaderRoute: typeof ApiAdminSyncSkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -177,12 +137,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  _authSignInRoute: _authSignInRoute,
-  _authSignOutRoute: _authSignOutRoute,
-  SkillsNewRoute: SkillsNewRoute,
+  SkillsSkillIdRoute: SkillsSkillIdRoute,
   SkillsIndexRoute: SkillsIndexRoute,
-  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiAdminSyncSkillsRoute: ApiAdminSyncSkillsRoute,
+  ApiWebhooksGithubRoute: ApiWebhooksGithubRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

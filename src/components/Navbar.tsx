@@ -1,7 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { LogIn } from "lucide-react";
-import NavUser from "./nav-user";
-import Show from "./Show";
 
 const Navbar = () => {
 	return (
@@ -14,17 +11,7 @@ const Navbar = () => {
 					<span>Skild</span>
 				</Link>
 			</div>
-			<div className="actions">
-				<Show when="sign-in">
-					<NavUser />
-				</Show>
-				<Show when="sign-out">
-					<Link to="/sign-in" className="btn-primary">
-						<LogIn size={16} />
-						Sign In
-					</Link>
-				</Show>
-			</div>
+			<div className="actions" />
 		</nav>
 	);
 };
