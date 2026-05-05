@@ -1,6 +1,5 @@
 import Search from "#/components/Search";
 import SkillCard from "#/components/SkillCard";
-import { GetSkills, type GetSkillsData } from "#/db/queries/skills";
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
@@ -17,8 +16,9 @@ const productSearchSchema = z.object({
 
 export const seacrhSkillsFn = createServerFn({ method: "GET" })
   .inputValidator(productSearchSchema)
-  .handler(async ({ data }): Promise<GetSkillsData> => {
+  .handler(async ({ data }) => {
     try {
+      const { GetSkills } = await import("#/db/queries/skills");
       const response = await GetSkills({
         searchTerm: data.q || undefined,
         limit: DEFAULT__PAGE_SIZE,
@@ -68,9 +68,6 @@ function RouteComponent() {
           resultCount={skills.length}
           onQueryChange={handleQueryChange}
         />
-        {/*<Link to="/skills/new" className="btn-secondary">
-          Submit Skill
-        </Link>*/}
       </section>
       <section className="results">
         {skills.length > 0 ? (

@@ -2,11 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { Terminal } from "lucide-react";
 import SkillCard from "#/components/SkillCard";
-import { GetSkills } from "#/db/queries/skills";
-import { dummySkills } from "#/lib/dummySkills";
 
 const getSkillsFn = createServerFn({ method: "GET" }).handler(async () => {
 	try {
+		const { GetSkills } = await import("#/db/queries/skills");
 		const skills = await GetSkills({});
 		return skills;
 	} catch (e) {
@@ -31,18 +30,14 @@ function Home() {
 						<span className="text-gradient">Agentic Intelligence</span>
 					</h1>
 					<p>
-						A high performance registry for procedural agent skills. Discover,
-						publish, and operate agent capabilities form a route driven
-						workspace
+						A high performance registry for procedural agent skills. Discover
+						and operate agent capabilities from a route driven workspace.
 					</p>
 				</div>
 				<div className="actions">
 					<Link to="/skills" className="btn-primary">
 						<Terminal size={18} />
 						Browser Registry
-					</Link>
-					<Link to="/skills/new" className="btn-secondary">
-						Publish Skill
 					</Link>
 				</div>
 			</section>

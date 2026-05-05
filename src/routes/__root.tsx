@@ -10,19 +10,13 @@ import { Toaster } from "sonner";
 import Crosshair from "#/components/Crosshair";
 import Navbar from "#/components/Navbar";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import { getAuthSession } from "../lib/middleware";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
-	session: Awaited<ReturnType<typeof getAuthSession>> | null;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-	beforeLoad: async () => {
-		const session = await getAuthSession();
-		return { session };
-	},
 	head: () => ({
 		meta: [
 			{
@@ -49,7 +43,19 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 	}),
 	shellComponent: RootDocument,
+	notFoundComponent: RootNotFound,
 });
+
+function RootNotFound() {
+	return (
+		<div className="p-8 text-center">
+			<h1 className="text-2xl font-bold">Page not found</h1>
+			<p className="mt-2 text-sm text-text-muted">
+				The route you requested does not exist.
+			</p>
+		</div>
+	);
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (

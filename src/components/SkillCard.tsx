@@ -1,119 +1,125 @@
 import { Link } from "@tanstack/react-router";
-import {
-	ArrowBigUp,
-	ArrowUpRight,
-	Bookmark,
-	Check,
-	Copy,
-	MessagesSquare,
-} from "lucide-react";
+import { ArrowUpRight, Check, Copy, Download, Star } from "lucide-react";
 import { useState } from "react";
 
+type SkillCardProps = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  tags: string[] | null;
+  createdAt: string | Date;
+  installCommand: string | null;
+};
+
 const SkillCard = ({
-	authorEmail,
-	category,
-	create_at,
-	description,
-	authorUserId,
-	installCommand,
-	tags,
-	title,
-}: SkillRecord) => {
-	const [copied, setCopied] = useState(false);
+  id,
+  slug,
+  createdAt,
+  description,
+  installCommand,
+  tags,
+  title,
+}: SkillCardProps) => {
+  const [copied, setCopied] = useState(false);
 
-	const handleCopy = () => {
-		try {
-			navigator.clipboard.writeText(installCommand);
-			setCopied(true);
-			setTimeout(() => setCopied(false), 2000);
-		} catch {
-			setCopied(false);
-		}
-	};
+  const safeTags = tags ?? [];
+  const category = safeTags[0] ?? "General";
+  const commandToShow = installCommand ?? `skild add ${slug}`;
 
-	return (
-		<article className="skill-card">
-			<Link
-				to="/skills"
-				tabIndex={-1}
-				aria-label={`Open ${title}`}
-				className="overlay"
-			/>
-			<div className="chrome">
-				<div className="chrome-bar">
-					<div className="lights">
-						<div className="light red" />
-						<div className="light amber" />
-						<div className="light green" />
-					</div>
-					<div className="host">registry.sh</div>
-				</div>
-			</div>
-			<div className="body">
-				<div className="meta">
-					<div className="author">
-						<img src="/logo512.png" alt="author avatar" className="avatar" />
-						<div className="author-copy">
-							Adrian
-							<p>
-								{create_at
-									? new Date(create_at).toLocaleDateString()
-									: "Unknown date"}
-							</p>
-						</div>
-					</div>
-					<p className="category">{category}</p>
-				</div>
-				<div className="summary">
-					<Link to={"/skills"} className="title-link">
-						<h3>{title}</h3>
-					</Link>
-					<p>{description}</p>
-				</div>
-				<div className="command ">
-					<div className="command-copy">
-						<span>{">_"}</span>
-						<p>{installCommand}</p>
-					</div>
-					<button
-						type="button"
-						onClick={handleCopy}
-						aria-label="Copy install command"
-					>
-						{copied ? <Check size={16} /> : <Copy size={16} />}
-					</button>
-				</div>
-				<div className="footer">
-					<div className="stats">
-						<button type="button" className="upvote" disabled>
-							<ArrowBigUp size={16} fill="currentColor" />
-							<span>{tags.length}</span>
-						</button>
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(commandToShow);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
+  return (
+    <article className="skill-card">
+      <div className="chrome">
+        <div className="chrome-bar">
+          <div className="lights">
+            <div className="light red" />
+            <div className="light amber" />
+            <div className="light green" />
+          </div>
+          <div className="host">registry.sh</div>
+        </div>
+      </div>
 
-						<div className="comments">
-							<MessagesSquare size={14} />
-							<span>{authorEmail ? 1 : 0}</span>
-						</div>
-					</div>
-					<div className="actions">
-						<Link to="skills" className="open" title={`Open ${title}`}>
-							<span>Open</span>
-							<ArrowUpRight size={14} />
-						</Link>
+      <div className="body">
+        <div className="meta">
+          <div className="author">
+            <div className="author-copy">
+              <p>{slug}</p>
+              <p>
+                {createdAt
+                  ? new Date(createdAt).toLocaleDateString()
+                  : "Unknown date"}
+              </p>
+            </div>
+          </div>
 
-						<button
-							type="button"
-							className="save"
-							aria-label="Save state"
-							disabled
-						>
-							<Bookmark size={14} />
-						</button>
-					</div>
-				</div>
-			</div>
-		</article>
-	);
+          <p className="category">{category}</p>
+        </div>
+
+        <div className="summary">
+          <Link
+            to="/skills/$skillId"
+            params={{ skillId: id }}
+            className="title-link"
+          >
+            <h3>{title}</h3>
+          </Link>
+
+          <p>{description}</p>
+        </div>
+
+        <div className="command">
+          <div className="command-copy">
+            <span>{">_"}</span>
+            <p>{commandToShow}</p>
+          </div>
+          <button
+            type="button"
+            className="copy"
+            onClick={handleCopy}
+            aria-label="Copy install command"
+          >
+            {copied ? <Check size={16} /> : <Copy size={16} />}
+          </button>
+        </div>
+
+        <div className="footer">
+          <div className="stats">
+            <button type="button" className="upvote" disabled>
+              <Star size={16} />
+              <span>--</span>
+            </button>
+
+            <div className="comments">
+              <Download size={14} />
+              <span>--</span>
+            </div>
+          </div>
+
+          <div className="actions">
+            <Link
+              to="/skills/$skillId"
+              params={{ skillId: id }}
+              className="open"
+              title={`Open ${title}`}
+            >
+              <span>Open</span>
+              <ArrowUpRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
 };
 
 export default SkillCard;

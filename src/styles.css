@@ -448,10 +448,6 @@
       @apply border-accent-primary/50;
     }
 
-    .overlay {
-      @apply absolute inset-0 z-0;
-    }
-
     .chrome {
       @apply relative z-10 border-b border-border-subtle bg-transparent px-5 py-3.5;
     }
@@ -553,11 +549,7 @@
     }
 
     .copy {
-      @apply p-1 text-text-muted opacity-0 transition-opacity hover:text-white;
-    }
-
-    &:hover .copy {
-      @apply opacity-100;
+      @apply relative z-20 p-1 text-text-muted opacity-100 transition-colors hover:text-white;
     }
 
     .footer {
